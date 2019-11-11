@@ -1,12 +1,22 @@
-import React from 'react';
+import React, {createRef} from 'react';
 import './App.css';
 import { Nav,Navbar, NavDropdown, Form, Button, FormControl, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import rd3 from 'react-d3-library'
 import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
 
+
+
+
 function App() {
 var addressData;
+var markers = [];
+var position = [39.50, -98.35];
+function addMarkers() {
+   markers.push([39.50, -98.35]);
+   console.log(markers);
+}
+
 function getAll() {
   fetch("http://172.119.206.111/testget.php")
      .then(res => res.json())
@@ -14,7 +24,10 @@ function getAll() {
         addressData = data;
         console.log(addressData);
 	})
+  addMarkers();
 }
+
+
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -80,13 +93,21 @@ function getAll() {
     </tr>
   </tbody>
  </Table>
- <button onClick={getAll}>Click Me</button>
+ <script>
+ </script>
+
+ <button onClick={getAll}>Get All Addresses</button>
    <div>
     <Map center={[39.50, -98.35]} zoom={4.5}>
       <TileLayer
         attribution='&amp;copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
       />
+      <Marker position={position}>
+        <Popup>
+	  Test pop-up
+        </Popup>
+      </Marker>
     </Map>
   </div>
 </div>
