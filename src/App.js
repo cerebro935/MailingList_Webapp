@@ -6,10 +6,14 @@ import rd3 from 'react-d3-library'
 import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
 
 function App() {
+var addressData;
 function getAll() {
   fetch("http://172.119.206.111/testget.php")
      .then(res => res.json())
-     .then(result => {console.log(result); })
+     .then(data => {
+        addressData = data;
+        console.log(addressData);
+	})
 }
   return (
     <div>
