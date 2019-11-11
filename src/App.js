@@ -5,8 +5,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import rd3 from 'react-d3-library'
 import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
 
-
 function App() {
+function getAll() {
+  fetch("http://172.119.206.111/testget.php")
+     .then(res => res.json())
+     .then(result => {console.log(result); })
+}
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -71,7 +75,8 @@ function App() {
       <td>Table cell</td>
     </tr>
   </tbody>
-</Table>
+ </Table>
+ <button onClick={getAll}>Click Me</button>
    <div>
     <Map center={[39.50, -98.35]} zoom={4.5}>
       <TileLayer
