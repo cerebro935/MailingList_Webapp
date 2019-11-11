@@ -20,3 +20,9 @@
 .App-link {
   color: #09d3ac;
 }
+
+.leaflet-container {
+  height: 475px;
+  width: 100%;
+}
+

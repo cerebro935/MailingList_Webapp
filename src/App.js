@@ -1,8 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Nav,Navbar, NavDropdown, Form, Button, FormControl, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import rd3 from 'react-d3-library'
+import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
+
 
 function App() {
   return (
@@ -70,13 +72,15 @@ function App() {
     </tr>
   </tbody>
 </Table>
-      
+   <div>
+    <Map center={[39.50, -98.35]} zoom={4.5}>
+      <TileLayer
+        attribution='&amp;copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
+      />
+    </Map>
   </div>
-    // <div>
-    //       <Button variant="contained" color="primary">
-    //   Hello World
-    // </Button>
-    // </div>
+</div>
   );
 }
 
