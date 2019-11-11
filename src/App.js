@@ -4,17 +4,31 @@ import { Nav,Navbar, NavDropdown, Form, Button, FormControl, Table } from 'react
 import 'bootstrap/dist/css/bootstrap.min.css';
 import rd3 from 'react-d3-library'
 import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
-
+import Geocode from 'react-geocode';
 
 
 
 function App() {
+Geocode.setApiKey("");
+Geocode.setLanguage("en");
+Geocode.setRegion("us");
+
+
 var addressData;
 var markers = [];
 var position = [39.50, -98.35];
 function addMarkers() {
-   markers.push([39.50, -98.35]);
-   console.log(markers);
+ for(var index = 0; index < addressData.length; index++){
+  var addressString = (addressData[index].street).concat(' ', addressData[index].city, ' ', addressData[index].state);
+  console.log(addressString);
+  Geocode.fromAddress(addressString)
+   .then(response => {
+      markers.push(response.results[0].geometry.location);
+    },
+    error => {
+       console.error(error);
+    });
+ }
 }
 
 function getAll() {
@@ -23,8 +37,9 @@ function getAll() {
      .then(data => {
         addressData = data;
         console.log(addressData);
+        addMarkers();
+        console.log(markers);
 	})
-  addMarkers();
 }
 
 
