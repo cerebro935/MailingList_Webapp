@@ -34,7 +34,6 @@ function App() {
       <th>#</th>
       <th>First Name</th>
       <th>Last Name</th>
-      <th>Table heading</th>
       <th>Address</th>
       <th>State</th>
       <th>Zip Code</th>
@@ -43,30 +42,27 @@ function App() {
   <tbody>
     <tr>
       <td>1</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
+      <td>Son</td>
+      <td>Phan</td>
+      <td>500 E. Small Springs Rd</td>
+      <td>CA</td>
+      <td>92507</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
+      <td>John</td>
+      <td>Doe</td>
+      <td>123 My Address Avn</td>
+      <td>CA</td>
+      <td>94123</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
-      <td>Table cell</td>
+      <td>Billy</td>
+      <td>Bob</td>
+      <td>456 Tractor Rd</td>
+      <td>OH</td>
+      <td>89012</td>
     </tr>
   </tbody>
 </Table>
