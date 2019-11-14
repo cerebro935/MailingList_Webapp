@@ -1,10 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {createRef} from 'react';
 import './App.css';
 import { Nav,Navbar, NavDropdown, Form, Button, FormControl, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import rd3 from 'react-d3-library'
+import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
+import Geocode from 'react-geocode';
+
+
 
 function App() {
+Geocode.setApiKey("");
+Geocode.setLanguage("en");
+Geocode.setRegion("us");
+
+
+var addressData;
+var markers = [];
+var position = [39.50, -98.35];
+function addMarkers() {
+ for(var index = 0; index < addressData.length; index++){
+  var addressString = (addressData[index].street).concat(' ', addressData[index].city, ' ', addressData[index].state);
+  console.log(addressString);
+  Geocode.fromAddress(addressString)
+   .then(response => {
+      markers.push(response.results[0].geometry.location);
+    },
+    error => {
+       console.error(error);
+    });
+ }
+}
+
+function getAll() {
+  fetch("http://172.119.206.111/testget.php")
+     .then(res => res.json())
+     .then(data => {
+        addressData = data;
+        console.log(addressData);
+        addMarkers();
+        console.log(markers);
+	})
+}
+
+
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -65,14 +103,25 @@ function App() {
       <td>89012</td>
     </tr>
   </tbody>
-</Table>
-      
+ </Table>
+ <script>
+ </script>
+
+ <button onClick={getAll}>Get All Addresses</button>
+   <div>
+    <Map center={[39.50, -98.35]} zoom={4.5}>
+      <TileLayer
+        attribution='&amp;copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
+      />
+      <Marker position={position}>
+        <Popup>
+	  Test pop-up
+        </Popup>
+      </Marker>
+    </Map>
   </div>
-    // <div>
-    //       <Button variant="contained" color="primary">
-    //   Hello World
-    // </Button>
-    // </div>
+</div>
   );
 }
 
