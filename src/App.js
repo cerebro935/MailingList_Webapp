@@ -28,7 +28,7 @@ function App() {
           </Form>
         </Navbar.Collapse>
       </Navbar>
-      <Table responsive variant="dark">
+      <Table responsive variant="dark" striped bordered hover>
   <thead>
     <tr>
       <th>#</th>
