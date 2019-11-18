@@ -82,34 +82,31 @@ function getAll() {
 
       
       <Table responsive variant="dark" striped bordered hover>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Address</th>
-      <th>State</th>
-      <th>Zip Code</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-    {data.map(address => (
-          <td>
-            {address.name}: {address.city}
-          </td>
-        ))}
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Billy</td>
-      <td>Bob</td>
-      <td>456 Tractor Rd</td>
-      <td>OH</td>
-      <td>89012</td>
-    </tr>
-  </tbody>
- </Table>
+          <thead>
+            <tr>
+              <th>Entry</th>
+              <th>Name</th>
+              <th>Street</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Postal Code</th>
+              <th>Date Received</th>
+            </tr>
+            </thead>
+            <tbody>              
+              {data.map(address => (
+                <tr>
+                    <td>{address.id}</td>
+                    <td>{address.name}</td>
+                    <td>{address.street}</td>
+                    <td>{address.city}</td>
+                    <td>{address.state}</td>
+                    <td>{address.postalCode}</td>
+                    <td>{address.date}</td>
+                </tr>                
+                  ))}
+            </tbody>  
+        </Table>
  <script>
  </script>
 
