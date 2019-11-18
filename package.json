@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.6.0",
+    "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "d3-geo": "^1.11.7",
     "jquery": "^3.4.1",
     "leaflet": "^1.5.1",
     "react": "^16.11.0",
+    "react-axios": "^2.0.3",
     "react-bootstrap": "^1.0.0-beta.14",
     "react-d3-library": "^1.1.8",
     "react-dom": "^16.11.0",

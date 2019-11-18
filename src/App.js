@@ -1,22 +1,35 @@
-import React, {createRef} from 'react';
+import React, {createRef, useEffect, useState} from 'react';
 import './App.css';
 import { Nav,Navbar, NavDropdown, Form, Button, FormControl, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import rd3 from 'react-d3-library'
 import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
 import Geocode from 'react-geocode';
+import axios from "axios";
 
 
 
-function App() {
+export default function App() {
+
+
 Geocode.setApiKey("");
 Geocode.setLanguage("en");
 Geocode.setRegion("us");
 
-
 var addressData;
 var markers = [];
 var position = [39.50, -98.35];
+
+const [data, setData] = useState([]);
+
+useEffect(() => {
+  axios
+    .get("http://172.119.206.111/getAllTables.php")
+    .then(result => setData(result.data));
+}, []);
+
+
+
 function addMarkers() {
  for(var index = 0; index < addressData.length; index++){
   var addressString = (addressData[index].street).concat(' ', addressData[index].city, ' ', addressData[index].state);
@@ -39,7 +52,7 @@ function getAll() {
         console.log(addressData);
         addMarkers();
         console.log(markers);
-	})
+  })
 }
 
 
@@ -66,6 +79,8 @@ function getAll() {
           </Form>
         </Navbar.Collapse>
       </Navbar>
+
+      
       <Table responsive variant="dark" striped bordered hover>
   <thead>
     <tr>
@@ -79,20 +94,11 @@ function getAll() {
   </thead>
   <tbody>
     <tr>
-      <td>1</td>
-      <td>Son</td>
-      <td>Phan</td>
-      <td>500 E. Small Springs Rd</td>
-      <td>CA</td>
-      <td>92507</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>John</td>
-      <td>Doe</td>
-      <td>123 My Address Avn</td>
-      <td>CA</td>
-      <td>94123</td>
+    {data.map(address => (
+          <td>
+            {address.name}: {address.city}
+          </td>
+        ))}
     </tr>
     <tr>
       <td>3</td>
@@ -125,4 +131,4 @@ function getAll() {
   );
 }
 
-export default App;
+
