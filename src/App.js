@@ -80,7 +80,6 @@ function getAll() {
         </Navbar.Collapse>
       </Navbar>
 
-      
       <Table responsive variant="dark" striped bordered hover>
           <thead>
             <tr>
