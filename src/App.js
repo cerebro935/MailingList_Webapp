@@ -17,18 +17,20 @@ Geocode.setLanguage("en");
 Geocode.setRegion("us");
 
 var addressData;
+var addressString;
+var marker;
+var temp;
 var markers = [];
 var position = [39.50, -98.35];
-
+var mark = null;
 const [data, setData] = useState([]);
+const [geo, setGeo] = useState([]);
 
 useEffect(() => {
   axios
     .get("http://172.119.206.111/getAllTables.php")
     .then(result => setData(result.data));
 }, []);
-
-
 
 function addMarkers() {
  for(var index = 0; index < addressData.length; index++){
@@ -44,15 +46,37 @@ function addMarkers() {
  }
 }
 
-function getAll() {
-  fetch("http://172.119.206.111/testget.php")
-     .then(res => res.json())
-     .then(data => {
-        addressData = data;
-        console.log(addressData);
-        addMarkers();
-        console.log(markers);
-  })
+function getCoords(address) {
+  addressString = (address.street).concat(' ', address.city, ' ', address.state);
+  Geocode.fromAddress(addressString)
+        .then(response => {
+        setGeo(response.results[0].geometry.location);
+      },
+     error => {
+         console.error(error);
+     });
+}
+
+function go() {
+data.map(address => (
+      marker = {lat: 39.5, lng: -98.53},
+      addressString = (address.street).concat(' ', address.city, ' ', address.state),
+      Geocode.fromAddress(addressString)
+        .then(response => {
+        temp = response.results[0].geometry.location
+        console.log(address.name)
+        console.log(temp)
+      },
+      error => {
+         console.error(error)
+      }),
+      //console.log(marker),
+      mark = (<Marker position={[marker.lat, marker.lng]}>
+        <Popup>
+          Test pop-up
+        </Popup>
+      </Marker>)
+))
 }
 
 
@@ -66,6 +90,7 @@ function getAll() {
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#link">Link</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
@@ -90,9 +115,9 @@ function getAll() {
               <th>State</th>
               <th>Postal Code</th>
               <th>Date Received</th>
-            </tr>
+               </tr>
             </thead>
-            <tbody>              
+            <tbody>
               {data.map(address => (
                 <tr>
                     <td>{address.id}</td>
@@ -102,29 +127,22 @@ function getAll() {
                     <td>{address.state}</td>
                     <td>{address.postalCode}</td>
                     <td>{address.date}</td>
-                </tr>                
+                </tr>
                   ))}
-            </tbody>  
+            </tbody>
         </Table>
- <script>
- </script>
 
- <button onClick={getAll}>Get All Addresses</button>
    <div>
+    <button onClick={go}>Get All Addresses</button>
     <Map center={[39.50, -98.35]} zoom={4.5}>
       <TileLayer
         attribution='&amp;copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
-      />
-      <Marker position={position}>
-        <Popup>
-	  Test pop-up
-        </Popup>
-      </Marker>
+         />
+       <button onClick={go}>Get All Addresses</button>
+        {mark}
     </Map>
   </div>
 </div>
   );
 }
-
-
