@@ -2,14 +2,16 @@ import React, {createRef, useEffect, useState} from 'react';
 import './App.css';
 import { Nav,Navbar, NavDropdown, Form, Button, FormControl, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import rd3 from 'react-d3-library'
-import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
+import rd3 from 'react-d3-library';
+import { Map, TileLayer, Marker, Popup} from 'react-leaflet';
 import Geocode from 'react-geocode';
 import axios from "axios";
 
+import Suggestions from './Components/Suggestions';
+import Search from './Components/Search';
 
 
-export default function App() {
+export default function App() { 
 
 
 Geocode.setApiKey("");
@@ -25,6 +27,7 @@ var position = [39.50, -98.35];
 var mark = null;
 const [data, setData] = useState([]);
 const [geo, setGeo] = useState([]);
+
 
 useEffect(() => {
   axios
@@ -80,6 +83,7 @@ data.map(address => (
 }
 
 
+
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -96,10 +100,10 @@ data.map(address => (
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> 
           </Nav>
           <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+            <FormControl type="text" placeholder="Search" className="mr-sm-2" /> 
             <Button variant="outline-success">Search</Button>
           </Form>
         </Navbar.Collapse>
