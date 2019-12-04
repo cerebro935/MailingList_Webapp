@@ -10,7 +10,7 @@ import Graph from "./Graph";
 
 export default function App() {
 
-Geocode.setApiKey("AIzaSyDkB709SniNgo-8HRN2psjvzcFD7tLyLBA");
+Geocode.setApiKey("");
 Geocode.setLanguage("en");
 Geocode.setRegion("us");
     const randomData = () =>
