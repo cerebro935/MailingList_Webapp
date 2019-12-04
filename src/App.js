@@ -2,6 +2,7 @@ import React, {createRef, useEffect, useState} from 'react';
 import './App.css';
 import { Nav,Navbar, NavDropdown, Form, Button, FormControl, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { MDBDataTable } from 'mdbreact';
 import rd3 from 'react-d3-library'
 import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
 import Geocode from 'react-geocode';
@@ -10,7 +11,6 @@ import axios from "axios";
 
 
 export default function App() {
-
 
 Geocode.setApiKey("");
 Geocode.setLanguage("en");
@@ -21,6 +21,57 @@ var markers = [];
 var position = [39.50, -98.35];
 
 const [data, setData] = useState([]);
+
+const formatdata = {
+  columns: [
+    {
+      label: 'ID',
+      field: 'id',
+      sort: 'asc',
+      width: 150
+    },
+    {
+      label: 'Name',
+      field: 'name',
+      sort: 'asc',
+      width: 150
+    },
+    {
+      label: 'Street',
+      field: 'street',
+      sort: 'asc',
+      width: 150
+    },
+    {
+      label: 'City',
+      field: 'city',
+      sort: 'asc',
+      width: 150
+    },
+    {
+      label: 'State',
+      field: 'state',
+      sort: 'asc',
+      width: 150
+    },
+    {
+      label: 'Postal Code',
+      field: 'postalCode',
+      sort: 'asc',
+      width: 150
+    },
+    {
+      label: 'Date',
+      field: 'date',
+      sort: 'asc',
+      width: 150
+    }
+
+
+  ],
+  rows: data
+};
+
 
 useEffect(() => {
   axios
@@ -58,54 +109,18 @@ function getAll() {
 
   return (
     <div>
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="dark" variant="dark">
         <Navbar.Brand href="#home">A Million Thanks</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
-          </Form>
-        </Navbar.Collapse>
       </Navbar>
+      <br/>
+      <MDBDataTable
+      striped
+      bordered
+      hover
+      theadColor="cyan lighten-5" 
+      data={formatdata}
+    />        
 
-      <Table responsive variant="dark" striped bordered hover>
-          <thead>
-            <tr>
-              <th>Entry</th>
-              <th>Name</th>
-              <th>Street</th>
-              <th>City</th>
-              <th>State</th>
-              <th>Postal Code</th>
-              <th>Date Received</th>
-            </tr>
-            </thead>
-            <tbody>              
-              {data.map(address => (
-                <tr>
-                    <td>{address.id}</td>
-                    <td>{address.name}</td>
-                    <td>{address.street}</td>
-                    <td>{address.city}</td>
-                    <td>{address.state}</td>
-                    <td>{address.postalCode}</td>
-                    <td>{address.date}</td>
-                </tr>                
-                  ))}
-            </tbody>  
-        </Table>
  <script>
  </script>
 
