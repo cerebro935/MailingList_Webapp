@@ -2,19 +2,26 @@ import React, {createRef, useEffect, useState} from 'react';
 import './App.css';
 import { Nav,Navbar, NavDropdown, Form, Button, FormControl, Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import rd3 from 'react-d3-library'
-import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
+import { Map, TileLayer, Marker, Popup} from 'react-leaflet';
 import Geocode from 'react-geocode';
 import axios from "axios";
-
+import Graph from "./Graph";
 
 
 export default function App() {
 
-
-Geocode.setApiKey("");
+Geocode.setApiKey("AIzaSyDkB709SniNgo-8HRN2psjvzcFD7tLyLBA");
 Geocode.setLanguage("en");
 Geocode.setRegion("us");
+    const randomData = () =>
+        Array.from({ length: 12 }, () => Math.floor(Math.random() * 100));
+    var datas=[{
+        color: "light-blue",
+        values: randomData()
+    }];
+
+
+
 
 var addressData;
 var addressString;
@@ -23,13 +30,42 @@ var temp;
 var markers = [];
 var position = [39.50, -98.35];
 var mark = null;
+const [yearlydatas, setDatas] = useState([{
+    color: "light-blue",
+    values: randomData()
+}]);
+
 const [data, setData] = useState([]);
 const [geo, setGeo] = useState([]);
+var yearlydata = [0,0,0,0,0,0,0,0,0,0,0,0];
 
 useEffect(() => {
   axios
     .get("http://172.119.206.111/getAllTables.php")
-    .then(result => setData(result.data));
+    .then(function(response){
+        setData(response.data);
+        console.log(response.data[0].date);
+        var date = new Date(response.data[0].date);
+        console.log(date.getMonth());
+        for(let i = 0; i < response.data.length; i++){
+            date = new Date(response.data[i].date);
+            yearlydata[date.getMonth()]++;
+        }
+        var tempdata = [{
+            color: "light-blue",
+            values: yearlydata
+        }];
+        setDatas(tempdata);
+        console.log("datas");
+        console.log(tempdata);
+        console.log(yearlydatas);
+    })
+      .catch(function(error){
+          console.log(error);
+      });
+  console.log("hello");
+  console.log(data);
+  console.log(yearlydata);
 }, []);
 
 function addMarkers() {
@@ -63,12 +99,12 @@ data.map(address => (
       addressString = (address.street).concat(' ', address.city, ' ', address.state),
       Geocode.fromAddress(addressString)
         .then(response => {
-        temp = response.results[0].geometry.location
-        console.log(address.name)
-        console.log(temp)
+        temp = response.results[0].geometry.location;
+        console.log(address.name);
+        console.log(temp);
       },
       error => {
-         console.error(error)
+         console.error(error);
       }),
       //console.log(marker),
       mark = (<Marker position={[marker.lat, marker.lng]}>
@@ -104,7 +140,28 @@ data.map(address => (
           </Form>
         </Navbar.Collapse>
       </Navbar>
-
+        <div>
+            <button onClick={go}>Get All Addresses</button>
+            <Map center={[39.50, -98.35]} zoom={4.5}>
+                <TileLayer
+                    attribution='&amp;copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
+                />
+                <button onClick={go}>Get All Addresses</button>
+                {mark}
+            </Map>
+        </div>
+        <div id="my_scatter">
+            <Graph
+                title="Letters Received by Month"
+                type="bar"
+                data={{
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    datasets: yearlydatas
+                }}
+                onSelect={a => console.log(a.index)}
+            />
+        </div>
       <Table responsive variant="dark" striped bordered hover>
           <thead>
             <tr>
@@ -132,17 +189,7 @@ data.map(address => (
             </tbody>
         </Table>
 
-   <div>
-    <button onClick={go}>Get All Addresses</button>
-    <Map center={[39.50, -98.35]} zoom={4.5}>
-      <TileLayer
-        attribution='&amp;copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
-         />
-       <button onClick={go}>Get All Addresses</button>
-        {mark}
-    </Map>
-  </div>
+
 </div>
   );
 }
