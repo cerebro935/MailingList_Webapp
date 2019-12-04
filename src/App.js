@@ -16,14 +16,11 @@ Geocode.setApiKey("");
 Geocode.setLanguage("en");
 Geocode.setRegion("us");
 
-var addressData;
 var addressString;
 var temp;
-var names = [];;
-var markers = [];
-var mark = null;
+var pairs = [];
 const [data, setData] = useState([]);
-const [geo, setGeo] = useState([]);
+const [pair, setPair] = useState([]);
 
 const formatdata = {
   columns: [
@@ -84,21 +81,21 @@ useEffect(() => {
 
 useEffect(() => {
 data.map(address => (
-      names.push(address.name),
       addressString = (address.street).concat(' ', address.city, ' ', address.state),
       Geocode.fromAddress(addressString)
       .then(response => {
         temp = response.results[0].geometry.location
-        console.log(address.name)
-        console.log(temp)
-        markers.push([temp.lat, temp.lng])
+        pairs.push([[temp.lat, temp.lng], address.name])
       },
       error => {
          console.error(error)
       })
 ));
-markers = [];
 });
+
+function event(){
+setPair(pairs);
+}
 
   return (
     <div>
@@ -118,16 +115,16 @@ markers = [];
  </script>
 
    <div>
-    <button onClick={()=>setGeo(markers)}>Update Map</button>
+    <button onClick={event}>Update Map</button>
     <Map center={[39.50, -98.35]} zoom={4.5}>
       <TileLayer
         attribution='&amp;copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
          />
-        {geo.map((position, idx) =>
-           <Marker key={`marker-${idx}`} position={position}>
+        {pair.map((position, idx) =>
+           <Marker key={`marker-${idx}`} position={position[0]}>
             <Popup>
-              <span> {names[idx]} </span>
+              <span> {position[1]} </span>
             </Popup>
           </Marker>
          )}
