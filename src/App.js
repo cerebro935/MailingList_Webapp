@@ -1,9 +1,8 @@
-import React, {createRef, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-import { Nav,Navbar, NavDropdown, Form, Button, FormControl, Table } from 'react-bootstrap';
+import {Navbar} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { MDBDataTable } from 'mdbreact';
-import rd3 from 'react-d3-library'
 import { Map, TileLayer, Marker, Popup} from 'react-leaflet'
 import Geocode from 'react-geocode';
 import axios from "axios";
