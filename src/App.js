@@ -11,22 +11,28 @@ import axios from "axios";
 
 export default function App() {
 
-Geocode.setApiKey("");
-Geocode.setLanguage("en");
-Geocode.setRegion("us");
 
-var addressString;
+
+Geocode.setApiKey("");  // Geocode API key, insert your own API key
+Geocode.setLanguage("en"); // Language preference set to 'en' (english)
+Geocode.setRegion("us");  // Region preference set to 'us' (united states)
+
+
+
+var addressString;  // Store addressString to use for Geocode API 
 var temp;
 var pairs = [];
-const [data, setData] = useState([]);
+const [data, setData] = useState([]); // Hook to store JSON object from API link 
 const [pair, setPair] = useState([]);
 
+
+// Formating for table columns 
 const formatdata = {
   columns: [
     {
-      label: 'ID',
-      field: 'id',
-      sort: 'asc',
+      label: 'ID',    // Label that shows up on the web page for the column
+      field: 'id',    // JSON object prop id preference 
+      sort: 'asc',    // default sort when opening page, set to ascending when opening the webapp
       width: 150
     },
     {
@@ -68,16 +74,19 @@ const formatdata = {
 
 
   ],
-  rows: data
+  rows: data  // JSON object data we will use to populate the table
 };
 
 
+
+// Import JSON data from API link and store using hooks
 useEffect(() => {
   axios
     .get("http://172.119.206.111/getAllTables.php")
     .then(result => setData(result.data));
 }, []);
 
+// Parase data so it is usable for Geocode API 
 useEffect(() => {
 data.map(address => (
       addressString = (address.street).concat(' ', address.city, ' ', address.state),
